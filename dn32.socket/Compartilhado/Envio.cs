@@ -13,6 +13,12 @@ namespace dn32.socket
         {
             idDaRequisicao = idDaRequisicao == default ? Guid.NewGuid() : idDaRequisicao;
             await EnviarMensagem(dnSocket, mensagem, retorno, idDaRequisicao);
+            if (!retorno) return await AguardarRetorno<To>(idDaRequisicao);
+            return default;
+        }
+
+        private static async Task<To> AguardarRetorno<To>(Guid idDaRequisicao)
+        {
             while (true)
             {
                 await Task.Delay(1); // Implementar semáforo e timeout

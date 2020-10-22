@@ -24,12 +24,7 @@ namespace dn32.socket
                     }
                     else
                     {
-                       var retorno_ = new ContratoDeMensagem
-                        {
-                            Conteudo = retorno,
-                            Retorno = true,
-                            IdDaRequisicao = mensagem.IdDaRequisicao
-                        };
+                        var retorno_ = new ContratoDeMensagem(JsonConvert.SerializeObject(retorno), true, mensagem.IdDaRequisicao);
                         await dnSocket.EnviarMensagemInternoAsync<object>(retorno_, true, mensagem.IdDaRequisicao);
                     }
 
@@ -37,6 +32,8 @@ namespace dn32.socket
                 }
                 catch (Exception ex)
                 {
+                    await dnSocket.Desconectado(ex);
+
                     if (ex is OperationCanceledException || ex is WebSocketException)
                     {
                         if (dnSocket.WebSocket.State == WebSocketState.Open)

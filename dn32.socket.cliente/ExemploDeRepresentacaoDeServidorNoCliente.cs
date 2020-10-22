@@ -28,21 +28,26 @@ namespace dn32.socket.servidor.Exemplos
             return base.Conectado();
         }
 
+        public override async Task Desconectado(Exception exception)
+        {
+            MensagemDeDebug($"Desconectado '{exception.Message}'");
+            await Task.CompletedTask;
+        }
+
         public async Task Inicializar()
         {
             MensagemDeDebug("Inicializar.");
 
-            var tratador = new ExemploDeRepresentacaoDeServidorNoCliente();
-            await tratador.Inicializar("ws://localhost:9008/ws");
+            await Inicializar("ws://localhost:9008/ws");
 
-            var exemploDePacote = new ExemploDePacoteDeEnvio
-            {
-                Informacao = "Teste de envio"
-            };
-
-            var retorno = await tratador.EnviarMensagem<ExemploDePacoteDeRetorno>(exemploDePacote);
-            MensagemDeDebug("Retorno: " + retorno.Nome);
+            var retorno1 = await EnviarMensagemDeExemplo("Teste de envio");
             Respondido = true;
+        }
+
+        public async Task<ExemploDePacoteDeRetorno> EnviarMensagemDeExemplo(string texto)
+        {
+            var exemploDePacote = new ExemploDePacoteDeEnvio { Informacao = texto };
+            return await EnviarMensagem<ExemploDePacoteDeRetorno>(exemploDePacote);
         }
 
         public override async Task<object> MensagemRecebida(string mensagem)

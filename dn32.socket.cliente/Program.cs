@@ -40,10 +40,18 @@ namespace dn32.socket.cliente
             while (lista.Count < QUANTIDADE || lista.Any(x => !x.Respondido))
             {
                 await Task.Delay(10);
-                //Console.WriteLine("Q: " + lista.Count);
             }
+            t1.Stop();
 
             Console.WriteLine($"{lista.Count} Finalizado em {t1.ElapsedMilliseconds}");
+
+           // await Task.Delay(10 * 1000);
+
+            //foreach (var cliente in lista)
+            //{
+            //    cliente.Desconectar();
+            //}
+            //Console.WriteLine($"Desconectado em {t1.ElapsedMilliseconds}");
         }
     }
 }

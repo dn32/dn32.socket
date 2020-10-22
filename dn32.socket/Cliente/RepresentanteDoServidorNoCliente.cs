@@ -12,7 +12,6 @@ namespace dn32.socket
 
         public override Task Conectado() => Task.CompletedTask;
 
-
         public async Task Inicializar(string url)
         {
             await Conectando();

@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using System;
+using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,12 +15,20 @@ namespace dn32.socket
 
         public DnRepresentante() => CancellationTokenSource = new CancellationTokenSource();
 
-        internal void DefinirWebSocket(WebSocket webSocket) => WebSocket = webSocket;
+        internal void DefinirWebSocket(WebSocket webSocket) => this.WebSocket = webSocket;
 
         public abstract Task<object> MensagemRecebida(string mensagem);
 
         public abstract Task Conectado();
+        
+        public abstract Task Desconectado(Exception exception);
 
         public async Task<To> EnviarMensagem<To>(object mensagem) => await this.EnviarMensagemInternoAsync<To>(mensagem, false);
+
+        public void Desconectar()
+        {
+            CancellationTokenSource.Cancel(false);
+            WebSocket.Dispose();
+        }
     }
 }

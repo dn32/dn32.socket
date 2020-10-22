@@ -6,6 +6,8 @@ namespace dn32.socket
 {
     public abstract class RepresentacaoDoClienteNoServidor : DnRepresentante
     {
+        public override Task Desconectado(Exception exception) => Task.CompletedTask;
+
         public override Task Conectado() => Task.CompletedTask;
 
         public virtual Task Conectando() => Task.CompletedTask;
