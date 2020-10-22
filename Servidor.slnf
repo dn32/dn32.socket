@@ -2,6 +2,7 @@
   "solution": {
     "path": "dn32.socket.sln",
     "projects": [
+      "dn32.socket.servidor\\dn32.socket.servidor.csproj",
       "dn32.socket\\dn32.socket.csproj"
     ]
   }

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace dn32.socket
+namespace dn32.socket.servidor
 {
     public class Program
     {

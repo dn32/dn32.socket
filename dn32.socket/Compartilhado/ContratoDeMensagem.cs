@@ -1,6 +1,5 @@
 ﻿using System;
 
-[Serializable]
 public class ContratoDeMensagem
 {
     public string Conteudo { get; set; }
