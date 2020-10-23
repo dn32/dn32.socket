@@ -8,16 +8,16 @@ namespace dn32.socket
     {
         internal protected ClientWebSocket ClientWebSocket => base.WebSocket as ClientWebSocket;
 
-        public virtual Task Conectando() => Task.CompletedTask;
+        public virtual Task ConectandoAsync() => Task.CompletedTask;
 
-        public override Task Conectado() => Task.CompletedTask;
+        public override Task ConectadoAsync() => Task.CompletedTask;
 
         public async Task Inicializar(string url)
         {
-            await Conectando();
+            await ConectandoAsync();
             var webSocket = await Conectar(url);
             DefinirWebSocket(webSocket);
-            await Conectado();
+            await ConectadoAsync();
             _ = this.AguardarEReceberInternoAsync();
         }
 

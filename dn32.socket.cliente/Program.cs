@@ -12,17 +12,9 @@ namespace dn32.socket.cliente
 {
     class Program
     {
-        static void Main(string[] _)
-        {
-
-            MainAsync();
-
-            Console.ReadKey();
-        }
-
-        const int QUANTIDADE = 10;
-
         private static SemaphoreSlim ControleDeFluxo { get; set; }
+        private const int QUANTIDADE = 1000;
+       
 
         static async void MainAsync()
         {
@@ -62,6 +54,9 @@ namespace dn32.socket.cliente
             //}
 
             //Console.WriteLine($"Desconectado em {t1.ElapsedMilliseconds}");
+            Console.ReadKey();
         }
+
+        static void Main(string[] _) => MainAsync();
     }
 }

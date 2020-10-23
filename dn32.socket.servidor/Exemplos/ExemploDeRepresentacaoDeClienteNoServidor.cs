@@ -9,27 +9,21 @@ namespace dn32.socket.servidor.Exemplos
     {
         public TarefaEmSegundoPlano TarefaEmSegundoPlano { get; set; }
 
-        public override Task Conectando()
-        {
-            MensagemDeDebug("Conectando");
-            return base.Conectando();
-        }
-
-        public override Task Conectado()
+        public override Task ConectadoAsync()
         {
             MensagemDeDebug($"Conectado");
             TarefaEmSegundoPlano = new TarefaEmSegundoPlano();
             _ = TarefaEmSegundoPlano.Iniciar(this);
-            return base.Conectado();
+            return base.ConectadoAsync();
         }
 
-        public override async Task Desconectado(Exception exception)
+        public override async Task DesconectadoAsync(Exception exception)
         {
             MensagemDeDebug($"Desconectado '{exception.Message}'");
             await Task.CompletedTask;
         }
 
-        public override async Task<object> MensagemRecebida(string mensagem)
+        public override async Task<object> MensagemRecebidaAsync(string mensagem)
         {
             await Task.CompletedTask;
 

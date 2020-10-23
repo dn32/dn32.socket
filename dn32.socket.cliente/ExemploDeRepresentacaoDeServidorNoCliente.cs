@@ -16,19 +16,19 @@ namespace dn32.socket.servidor.Exemplos
             Cronometro = new Stopwatch(); Cronometro.Start();
         }
 
-        public override Task Conectando()
+        public override Task ConectandoAsync()
         {
             MensagemDeDebug("Conectando");
-            return base.Conectando();
+            return base.ConectandoAsync();
         }
 
-        public override Task Conectado()
+        public override Task ConectadoAsync()
         {
             MensagemDeDebug($"Conectado");
-            return base.Conectado();
+            return base.ConectadoAsync();
         }
 
-        public override async Task Desconectado(Exception exception)
+        public override async Task DesconectadoAsync(Exception exception)
         {
             MensagemDeDebug($"Desconectado '{exception.Message}'");
             await Task.CompletedTask;
@@ -50,7 +50,7 @@ namespace dn32.socket.servidor.Exemplos
             return await EnviarMensagem<ExemploDePacoteDeRetorno>(exemploDePacote);
         }
 
-        public override async Task<object> MensagemRecebida(string mensagem)
+        public override async Task<object> MensagemRecebidaAsync(string mensagem)
         {
             MensagemDeDebug(mensagem);
             await Task.CompletedTask;

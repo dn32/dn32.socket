@@ -19,7 +19,7 @@ namespace dn32.socket
                     (DnContratoDeMensagem mensagem, WebSocketReceiveResult resultado) = await dnSocket.AguardarRecebimentoAsync();
                     if (resultado.CloseStatus.HasValue)
                     {
-                        _ = dnSocket.Desconectado(new InvalidOperationException(resultado.CloseStatusDescription));
+                        _ = dnSocket.DesconectadoAsync(new InvalidOperationException(resultado.CloseStatusDescription));
                         break;
                     }
 
@@ -27,7 +27,7 @@ namespace dn32.socket
                 }
                 catch (Exception ex)
                 {
-                    _ = dnSocket.Desconectado(ex);
+                    _ = dnSocket.DesconectadoAsync(ex);
 
                     if (ex is OperationCanceledException || ex is WebSocketException)
                     {
@@ -45,7 +45,7 @@ namespace dn32.socket
 
         private static async Task TratarRecepcaoERetorno(DnRepresentante dnSocket, DnContratoDeMensagem mensagem)
         {
-            var retorno = await dnSocket.MensagemRecebida(mensagem.Conteudo);
+            var retorno = await dnSocket.MensagemRecebidaAsync(mensagem.Conteudo);
             if (mensagem.Retorno)
             {
                 Memoria.Respostas.TryAdd(mensagem.IdDaRequisicao, mensagem);

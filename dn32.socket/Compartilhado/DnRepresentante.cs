@@ -17,11 +17,11 @@ namespace dn32.socket
 
         internal void DefinirWebSocket(WebSocket webSocket) => this.WebSocket = webSocket;
 
-        public abstract Task<object> MensagemRecebida(string mensagem);
+        public abstract Task<object> MensagemRecebidaAsync(string mensagem);
 
-        public abstract Task Conectado();
+        public abstract Task ConectadoAsync();
 
-        public abstract Task Desconectado(Exception exception);
+        public abstract Task DesconectadoAsync(Exception exception);
 
         public async Task<To> EnviarMensagem<To>(object mensagem) => await this.EnviarMensagemInternoAsync<To>(mensagem, false);
 

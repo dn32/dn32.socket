@@ -18,7 +18,7 @@ namespace dn32.socket.Servidor
                         _= cliente.Conectando();
                         var webSocket = await context.WebSockets.AcceptWebSocketAsync();
                         cliente.DefinirWebSocket(webSocket);
-                        _= cliente.Conectado();
+                        _= cliente.ConectadoAsync();
                         await cliente.AguardarEReceberInternoAsync();
                     }
                     else
