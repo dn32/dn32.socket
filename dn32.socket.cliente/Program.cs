@@ -13,7 +13,7 @@ namespace dn32.socket.cliente
     class Program
     {
         private static SemaphoreSlim ControleDeFluxo { get; set; }
-        private const int QUANTIDADE = 1000;
+        private const int QUANTIDADE = 1;
        
 
         static async void MainAsync()
@@ -48,15 +48,18 @@ namespace dn32.socket.cliente
 
             await Task.Delay(1 * 1000);
 
-            //foreach (var cliente in lista)
-            //{
-            //    await cliente.Desconectar();
-            //}
+            foreach (var cliente in lista)
+            {
+                await cliente.Desconectar();
+            }
 
             //Console.WriteLine($"Desconectado em {t1.ElapsedMilliseconds}");
-            Console.ReadKey();
         }
 
-        static void Main(string[] _) => MainAsync();
+        static void Main(string[] _)
+        {
+            MainAsync();
+            Console.ReadKey();
+        }
     }
 }

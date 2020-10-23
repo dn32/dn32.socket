@@ -30,8 +30,8 @@ namespace dn32.socket.servidor.Exemplos
             //await Task.Delay(1 * 1000);
             //await Task.Delay(1 * 1000);
             //await cliente.Desconectar();
-              //  break;
-           // }
+            //  break;
+            // }
             //}
         }
     }

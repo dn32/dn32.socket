@@ -27,11 +27,7 @@ namespace dn32.socket
 
         public async Task Desconectar()
         {
-            try
-            {
-                await WebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Finalização padrão", Ctoken);
-            }
-            catch (WebSocketException) { }
+            await WebSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Finalização padrão", Ctoken);
             CancellationTokenSource.Cancel(false);
             WebSocket.Dispose();
         }
