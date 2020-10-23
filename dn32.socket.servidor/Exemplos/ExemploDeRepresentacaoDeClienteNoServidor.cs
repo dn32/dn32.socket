@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace dn32.socket.servidor.Exemplos
 {
-    public class ExemploDeRepresentacaoDeClienteNoServidor : RepresentacaoDoClienteNoServidor
+    public class ExemploDeRepresentacaoDeClienteNoServidor : DnRepresentacaoDoClienteNoServidor
     {
         public TarefaEmSegundoPlano TarefaEmSegundoPlano { get; set; }
 
@@ -45,37 +45,6 @@ namespace dn32.socket.servidor.Exemplos
         private void MensagemDeDebug(string mensagem)
         {
             Console.WriteLine($"{mensagem}.");
-        }
-    }
-
-    public class TarefaEmSegundoPlano
-    {
-        public ExemploDeRepresentacaoDeClienteNoServidor Cliente { get; set; }
-
-        public async Task Iniciar(ExemploDeRepresentacaoDeClienteNoServidor cliente)
-        {
-            Cliente = cliente;
-
-            int i = 0;
-            while (!Cliente.Ctoken.IsCancellationRequested)
-            {
-                i++;
-                await Task.Delay(500);
-                    
-                var retorno = await Cliente.EnviarMensagem<ExemploDePacoteDeRetorno>(new ExemploDePacoteDeEnvio
-                {
-                    Informacao = "Envio periódico do servidor"
-                });
-
-                Console.WriteLine(retorno.Nome);
-
-                if (i == 5)
-                {
-                    cliente.Desconectar();
-                }
-            }
-
-            var aa = 4;
         }
     }
 }

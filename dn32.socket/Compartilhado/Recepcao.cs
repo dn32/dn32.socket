@@ -10,29 +10,24 @@ namespace dn32.socket
 {
     internal static class Recepcao
     {
-        internal static async Task ReceberInternoAsync(this DnRepresentante dnSocket)
+        internal static async Task AguardarEReceberInternoAsync(this DnRepresentante dnSocket)
         {
             do
             {
                 try
                 {
-                    (ContratoDeMensagem mensagem, WebSocketReceiveResult resultado) = await dnSocket.AguardarRecebimentoAsync();
-                    var retorno = await dnSocket.MensagemRecebida(mensagem.Conteudo);
-                    if (mensagem.Retorno)
+                    (DnContratoDeMensagem mensagem, WebSocketReceiveResult resultado) = await dnSocket.AguardarRecebimentoAsync();
+                    if (resultado.CloseStatus.HasValue)
                     {
-                        Memoria.Respostas.TryAdd(mensagem.IdDaRequisicao, mensagem); // Adiciona o retorno na lista de retornos
-                    }
-                    else
-                    {
-                        var retorno_ = new ContratoDeMensagem(JsonConvert.SerializeObject(retorno), true, mensagem.IdDaRequisicao);
-                        await dnSocket.EnviarMensagemInternoAsync<object>(retorno_, true, mensagem.IdDaRequisicao);
+                        _ = dnSocket.Desconectado(new InvalidOperationException(resultado.CloseStatusDescription));
+                        break;
                     }
 
-                    if (resultado.CloseStatus.HasValue) break;
+                    _ = TratarRecepcaoERetorno(dnSocket, mensagem);
                 }
                 catch (Exception ex)
                 {
-                    await dnSocket.Desconectado(ex);
+                    _ = dnSocket.Desconectado(ex);
 
                     if (ex is OperationCanceledException || ex is WebSocketException)
                     {
@@ -48,7 +43,21 @@ namespace dn32.socket
             dnSocket.WebSocket?.Dispose();
         }
 
-        private static async Task<(ContratoDeMensagem mensagem, WebSocketReceiveResult resultado)> AguardarRecebimentoAsync(this DnRepresentante dnSocket)
+        private static async Task TratarRecepcaoERetorno(DnRepresentante dnSocket, DnContratoDeMensagem mensagem)
+        {
+            var retorno = await dnSocket.MensagemRecebida(mensagem.Conteudo);
+            if (mensagem.Retorno)
+            {
+                Memoria.Respostas.TryAdd(mensagem.IdDaRequisicao, mensagem);
+            }
+            else
+            {
+                var retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(retorno), true, mensagem.IdDaRequisicao);
+                await dnSocket.EnviarMensagemInternoAsync<object>(retornoEmContrato, true, mensagem.IdDaRequisicao);
+            }
+        }
+
+        private static async Task<(DnContratoDeMensagem mensagem, WebSocketReceiveResult resultado)> AguardarRecebimentoAsync(this DnRepresentante dnSocket)
         {
             WebSocketReceiveResult resultado;
             using var ms = new MemoryStream();
@@ -61,7 +70,7 @@ namespace dn32.socket
             }
             while (!resultado.EndOfMessage);
             ms.Seek(0, SeekOrigin.Begin);
-            var objeto = JsonConvert.DeserializeObject<ContratoDeMensagem>(Encoding.UTF8.GetString(ms.ToArray()));
+            var objeto = JsonConvert.DeserializeObject<DnContratoDeMensagem>(Encoding.UTF8.GetString(ms.ToArray()));
             return (objeto, resultado);
         }
     }

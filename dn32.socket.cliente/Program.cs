@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dn32.socket.cliente
@@ -19,21 +20,29 @@ namespace dn32.socket.cliente
             Console.ReadKey();
         }
 
-        const int QUANTIDADE = 1;
+        const int QUANTIDADE = 10;
+
+        private static SemaphoreSlim ControleDeFluxo { get; set; }
 
         static async void MainAsync()
         {
-            var t1 = new Stopwatch(); t1.Start();
+            Console.WriteLine("Aguardando...");
+            await Task.Delay(2000);
             Console.WriteLine("Iniciando");
+            var t1 = new Stopwatch(); t1.Start();
             var lista = new List<ExemploDeRepresentacaoDeServidorNoCliente>();
+           
+            ControleDeFluxo = new SemaphoreSlim(20);
 
             for (int i = 0; i < QUANTIDADE; i++)
             {
                 _ = Task.Run(async () =>
                 {
+                    await ControleDeFluxo.WaitAsync();
                     var represent = new ExemploDeRepresentacaoDeServidorNoCliente();
                     await represent.Inicializar();
                     lock (lista) lista.Add(represent);
+                    ControleDeFluxo.Release();
                 });
             }
 
@@ -45,12 +54,13 @@ namespace dn32.socket.cliente
 
             Console.WriteLine($"{lista.Count} Finalizado em {t1.ElapsedMilliseconds}");
 
-           // await Task.Delay(10 * 1000);
+            await Task.Delay(1 * 1000);
 
             //foreach (var cliente in lista)
             //{
-            //    cliente.Desconectar();
+            //    await cliente.Desconectar();
             //}
+
             //Console.WriteLine($"Desconectado em {t1.ElapsedMilliseconds}");
         }
     }

@@ -20,13 +20,18 @@ namespace dn32.socket
         public abstract Task<object> MensagemRecebida(string mensagem);
 
         public abstract Task Conectado();
-        
+
         public abstract Task Desconectado(Exception exception);
 
         public async Task<To> EnviarMensagem<To>(object mensagem) => await this.EnviarMensagemInternoAsync<To>(mensagem, false);
 
-        public void Desconectar()
+        public async Task Desconectar()
         {
+            try
+            {
+                await WebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Finalização padrão", Ctoken);
+            }
+            catch (WebSocketException) { }
             CancellationTokenSource.Cancel(false);
             WebSocket.Dispose();
         }

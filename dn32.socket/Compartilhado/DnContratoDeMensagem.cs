@@ -1,13 +1,13 @@
 ﻿using System;
 
-public class ContratoDeMensagem
+internal class DnContratoDeMensagem
 {
     public string Conteudo { get; set; }
     public bool Retorno { get; set; }
     public Guid IdDaRequisicao { get; set; }
-    protected ContratoDeMensagem() { }
+    protected DnContratoDeMensagem() { }
 
-    public ContratoDeMensagem(string conteudo, bool retorno, Guid idDaRequisicao)
+    public DnContratoDeMensagem(string conteudo, bool retorno, Guid idDaRequisicao)
     {
         Conteudo = conteudo;
         Retorno = retorno;

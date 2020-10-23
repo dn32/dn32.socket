@@ -2,9 +2,9 @@
 
 namespace dn32.socket.Servidor
 {
-    public static class Configuracao
+    public static class DnConfiguracao
     {
-        public static IApplicationBuilder UseDnSocket<TR>(this IApplicationBuilder app, WebSocketOptions webSocketOptions, string prefixo) where TR: RepresentacaoDoClienteNoServidor, new()
+        public static IApplicationBuilder UseDnSocket<TR>(this IApplicationBuilder app, WebSocketOptions webSocketOptions, string prefixo) where TR: DnRepresentacaoDoClienteNoServidor, new()
         {
             app = app.UseWebSockets(webSocketOptions);
 
@@ -15,11 +15,11 @@ namespace dn32.socket.Servidor
                     if (context.WebSockets.IsWebSocketRequest)
                     {
                         var cliente = new TR();
-                        await cliente.Conectando();
+                        _= cliente.Conectando();
                         var webSocket = await context.WebSockets.AcceptWebSocketAsync();
                         cliente.DefinirWebSocket(webSocket);
-                        await cliente.Conectado();
-                        await cliente.ReceberInternoAsync();
+                        _= cliente.Conectado();
+                        await cliente.AguardarEReceberInternoAsync();
                     }
                     else
                     {

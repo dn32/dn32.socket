@@ -5,6 +5,6 @@ namespace dn32.socket.Compartilhado
 {
     internal static class Memoria
     {
-        public static ConcurrentDictionary<Guid, ContratoDeMensagem> Respostas { get; set; } = new ConcurrentDictionary<Guid, ContratoDeMensagem>();
+        public static ConcurrentDictionary<Guid, DnContratoDeMensagem> Respostas { get; set; } = new ConcurrentDictionary<Guid, DnContratoDeMensagem>();
     }
 }

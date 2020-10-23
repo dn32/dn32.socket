@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace dn32.socket.servidor.Exemplos
 {
-    public class ExemploDeRepresentacaoDeServidorNoCliente : RepresentanteDoServidorNoCliente
+    public class ExemploDeRepresentacaoDeServidorNoCliente : DnRepresentanteDoServidorNoCliente
     {
         public Stopwatch Cronometro { get; private set; }
 

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace dn32.socket
 {
-    public abstract class RepresentanteDoServidorNoCliente : DnRepresentante
+    public abstract class DnRepresentanteDoServidorNoCliente : DnRepresentante
     {
         internal protected ClientWebSocket ClientWebSocket => base.WebSocket as ClientWebSocket;
 
@@ -18,7 +18,7 @@ namespace dn32.socket
             var webSocket = await Conectar(url);
             DefinirWebSocket(webSocket);
             await Conectado();
-            _ = this.ReceberInternoAsync();
+            _ = this.AguardarEReceberInternoAsync();
         }
 
         private async Task<ClientWebSocket> Conectar(string url)

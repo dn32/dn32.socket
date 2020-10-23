@@ -31,7 +31,7 @@ namespace dn32.socket
 
         private static async Task EnviarMensagem(this DnRepresentante dnSocket, object mensagem, bool retorno, Guid idDaRequisicao)
         {
-            var objeto = retorno ? mensagem : new ContratoDeMensagem(JsonConvert.SerializeObject(mensagem), retorno, idDaRequisicao);
+            var objeto = retorno ? mensagem : new DnContratoDeMensagem(JsonConvert.SerializeObject(mensagem), retorno, idDaRequisicao);
             var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(objeto));
             await dnSocket.WebSocket.SendAsync(new ArraySegment<byte>(data, 0, data.Length), WebSocketMessageType.Text, true, dnSocket.Ctoken);
         }
