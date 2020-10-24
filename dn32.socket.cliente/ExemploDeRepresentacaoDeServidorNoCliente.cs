@@ -1,4 +1,5 @@
-﻿using dn32.socket.servidor.Exemplos.Model;
+﻿using dn32.socket.cliente;
+using dn32.socket.servidor.Exemplos.Model;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -40,7 +41,9 @@ namespace dn32.socket.servidor.Exemplos
 
             await Inicializar("ws://localhost:9008/ws");
 
-            var retorno1 = await EnviarMensagemDeExemplo("Teste de envio");
+            MensagemDeDebug($"Envaiado para o cliente: 'Teste de envio do servidor'");
+            var retorno1 = await EnviarMensagemDeExemplo("Teste de envio do servidor");
+            MensagemDeDebug($"Recebi de retorno: '{retorno1.Nome}'");
             Respondido = true;
         }
 

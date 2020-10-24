@@ -1,32 +1,37 @@
-﻿using dn32.socket.Compartilhado;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dn32.socket
 {
     internal static class Envio
     {
+        private const int TEMPO_TE_ESPERA_POR_RETORNO_EM_MS = 6000;
+
         internal static async Task<To> EnviarMensagemInternoAsync<To>(this DnRepresentante dnSocket, object mensagem, bool retorno, Guid idDaRequisicao = default)
         {
             idDaRequisicao = idDaRequisicao == default ? Guid.NewGuid() : idDaRequisicao;
-            await EnviarMensagem(dnSocket, mensagem, retorno, idDaRequisicao);
-            if (!retorno) return await AguardarRetorno<To>(idDaRequisicao);
-            return default;
-        }
 
-        private static async Task<To> AguardarRetorno<To>(Guid idDaRequisicao)
-        {
-            while (true)
+            var retornoDeMensagem = new RetornoDeMensagem
             {
-                await Task.Delay(1); // Implementar semáforo e timeout
-                if (Memoria.Respostas.TryRemove(idDaRequisicao, out var resposta))
-                {
-                    return resposta.Conteudo == null ? default : JsonConvert.DeserializeObject<To>(resposta.Conteudo);
-                }
+                IdDaRequisicao = idDaRequisicao,
+                Semaforo = new SemaphoreSlim(0)
+            };
+
+            Memoria.Respostas.TryAdd(idDaRequisicao, retornoDeMensagem);
+
+            await EnviarMensagem(dnSocket, mensagem, retorno, idDaRequisicao);
+            if (!retorno)
+            {
+                await retornoDeMensagem.Semaforo.WaitAsync(TEMPO_TE_ESPERA_POR_RETORNO_EM_MS, dnSocket.Ctoken);
+                Memoria.Respostas.TryRemove(idDaRequisicao, out _);
+                return retornoDeMensagem.Retorno == null ? default : JsonConvert.DeserializeObject<To>(retornoDeMensagem.Retorno);
             }
+
+            return default;
         }
 
         private static async Task EnviarMensagem(this DnRepresentante dnSocket, object mensagem, bool retorno, Guid idDaRequisicao)

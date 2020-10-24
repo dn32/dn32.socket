@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +11,7 @@ namespace dn32.socket.cliente
     class Program
     {
         private static SemaphoreSlim ControleDeFluxo { get; set; }
-        private const int QUANTIDADE = 1;
+        private const int QUANTIDADE = 100;
        
 
         static async void MainAsync()
@@ -48,10 +46,10 @@ namespace dn32.socket.cliente
 
             await Task.Delay(1 * 1000);
 
-            foreach (var cliente in lista)
-            {
-                await cliente.Desconectar();
-            }
+            //foreach (var cliente in lista)
+            //{
+            //    await cliente.Desconectar();
+            //}
 
             //Console.WriteLine($"Desconectado em {t1.ElapsedMilliseconds}");
         }

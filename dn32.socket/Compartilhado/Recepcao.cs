@@ -1,5 +1,4 @@
-﻿using dn32.socket.Compartilhado;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.WebSockets;
@@ -45,14 +44,18 @@ namespace dn32.socket
 
         private static async Task TratarRecepcaoERetorno(DnRepresentante dnSocket, DnContratoDeMensagem mensagem)
         {
-            var retorno = await dnSocket.MensagemRecebidaAsync(mensagem.Conteudo);
             if (mensagem.Retorno)
             {
-                Memoria.Respostas.TryAdd(mensagem.IdDaRequisicao, mensagem);
+                if (Memoria.Respostas.TryGetValue(mensagem.IdDaRequisicao, out var retornoDeMensagem))
+                {
+                    retornoDeMensagem.Retorno = mensagem.Conteudo;
+                    retornoDeMensagem.Semaforo.Release();
+                }
             }
             else
             {
-                var retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(retorno), true, mensagem.IdDaRequisicao);
+                var objetoDeRetorno = await dnSocket.MensagemRecebidaAsync(mensagem.Conteudo);
+                var retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(objetoDeRetorno), true, mensagem.IdDaRequisicao);
                 await dnSocket.EnviarMensagemInternoAsync<object>(retornoEmContrato, true, mensagem.IdDaRequisicao);
             }
         }

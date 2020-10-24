@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace dn32.socket
+namespace dn32.socket.servidor
 {
     public abstract class DnRepresentacaoDoClienteNoServidor : DnRepresentante
     {

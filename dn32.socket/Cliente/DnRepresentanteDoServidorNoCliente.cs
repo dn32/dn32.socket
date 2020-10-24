@@ -2,7 +2,7 @@
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
-namespace dn32.socket
+namespace dn32.socket.cliente
 {
     public abstract class DnRepresentanteDoServidorNoCliente : DnRepresentante
     {

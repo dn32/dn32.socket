@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace dn32.socket.Servidor
+namespace dn32.socket.servidor
 {
     public static class DnConfiguracao
     {

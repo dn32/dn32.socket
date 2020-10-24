@@ -1,16 +1,19 @@
 ﻿using System;
 
-internal class DnContratoDeMensagem
+namespace dn32.socket
 {
-    public string Conteudo { get; set; }
-    public bool Retorno { get; set; }
-    public Guid IdDaRequisicao { get; set; }
-    protected DnContratoDeMensagem() { }
-
-    public DnContratoDeMensagem(string conteudo, bool retorno, Guid idDaRequisicao)
+    internal class DnContratoDeMensagem
     {
-        Conteudo = conteudo;
-        Retorno = retorno;
-        IdDaRequisicao = idDaRequisicao;
+        public string Conteudo { get; set; }
+        public bool Retorno { get; set; }
+        public Guid IdDaRequisicao { get; set; }
+        protected DnContratoDeMensagem() { }
+
+        public DnContratoDeMensagem(string conteudo, bool retorno, Guid idDaRequisicao)
+        {
+            Conteudo = conteudo;
+            Retorno = retorno;
+            IdDaRequisicao = idDaRequisicao;
+        }
     }
 }

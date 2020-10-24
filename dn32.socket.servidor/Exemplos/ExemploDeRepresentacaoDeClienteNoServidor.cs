@@ -28,11 +28,12 @@ namespace dn32.socket.servidor.Exemplos
             await Task.CompletedTask;
 
             var pacote = JsonConvert.DeserializeObject<ExemploDePacoteDeEnvio>(mensagem);
-            Console.WriteLine(pacote.Informacao);
+            MensagemDeDebug($"Recebido do servidor: '{pacote.Informacao}'");
+            MensagemDeDebug($"Respondendo: 'Resposta do cliente'");
 
             return new ExemploDePacoteDeRetorno
             {
-                Nome = "Zé Piqueno"
+                Nome = "Resposta do cliente"
             };
         }
 
