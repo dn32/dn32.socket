@@ -2,6 +2,7 @@
 
 namespace dn32.socket
 {
+    [Serializable]
     internal class DnContratoDeMensagem
     {
         public string Conteudo { get; set; }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using dn32.socket.Compartilhado;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.WebSockets;
@@ -73,7 +74,11 @@ namespace dn32.socket
             }
             while (!resultado.EndOfMessage);
             ms.Seek(0, SeekOrigin.Begin);
-            var objeto = JsonConvert.DeserializeObject<DnContratoDeMensagem>(Encoding.UTF8.GetString(ms.ToArray()));
+
+            var arrayDeBytesComprimido = ms.ToArray();
+            var json = UtilZip.Unzip(arrayDeBytesComprimido);
+
+            var objeto = JsonConvert.DeserializeObject<DnContratoDeMensagem>(json);
             return (objeto, resultado);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using dn32.socket.Compartilhado;
+using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;
 using System.Text;
@@ -39,8 +40,10 @@ namespace dn32.socket
         private static async Task EnviarMensagem(this DnRepresentante dnSocket, object mensagem, bool retorno, Guid idDaRequisicao)
         {
             var objeto = retorno ? mensagem : new DnContratoDeMensagem(JsonConvert.SerializeObject(mensagem), retorno, idDaRequisicao);
-            var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(objeto));
-            await dnSocket.WebSocket.SendAsync(new ArraySegment<byte>(data, 0, data.Length), WebSocketMessageType.Text, true, dnSocket.Ctoken);
+            var json = JsonConvert.SerializeObject(objeto);
+            var arrayDeBytesComprimido = UtilZip.Zip(json);
+
+            await dnSocket.WebSocket.SendAsync(new ArraySegment<byte>(arrayDeBytesComprimido, 0, arrayDeBytesComprimido.Length), WebSocketMessageType.Binary, true, dnSocket.Ctoken);
         }
     }
 }
