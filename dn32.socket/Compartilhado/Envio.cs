@@ -9,7 +9,7 @@ namespace dn32.socket
 {
     internal static class Envio
     {
-        private const int TEMPO_TE_ESPERA_POR_RETORNO_EM_MS = 6000;
+        private const int TEMPO_TE_ESPERA_POR_RETORNO_EM_MS = 20000;
 
         internal static async Task<To> EnviarMensagemInternoAsync<To>(this DnRepresentante dnSocket, object mensagem, bool retorno, Guid idDaRequisicao = default)
         {
@@ -26,7 +26,9 @@ namespace dn32.socket
             await EnviarMensagem(dnSocket, mensagem, retorno, idDaRequisicao);
             if (!retorno)
             {
-                await retornoDeMensagem.Semaforo.WaitAsync(TEMPO_TE_ESPERA_POR_RETORNO_EM_MS, dnSocket.Ctoken);
+                //while (retornoDeMensagem.Retorno == null) await Task.Delay(1);
+                var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(TEMPO_TE_ESPERA_POR_RETORNO_EM_MS, dnSocket.Ctoken);
+                if (!sucesso) throw new TimeoutException();
                 Memoria.Respostas.TryRemove(idDaRequisicao, out _);
                 return retornoDeMensagem.Retorno == null ? default : JsonConvert.DeserializeObject<To>(retornoDeMensagem.Retorno);
             }
