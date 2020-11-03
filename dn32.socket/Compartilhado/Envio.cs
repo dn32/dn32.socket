@@ -12,7 +12,7 @@ namespace dn32.socket
     {
         private const int TEMPO_TE_ESPERA_POR_RETORNO_EM_MS = 20000;
 
-        internal static async Task<To> EnviarMensagemInternoAsync<To>(this DnRepresentante dnSocket, object mensagem, bool retorno, Guid idDaRequisicao = default)
+        internal static async Task<To> EnviarMensagemInternoAsync<To>(this DnRepresentante dnSocket, object mensagem, bool ehUmRetorno, Guid idDaRequisicao = default)
         {
             idDaRequisicao = idDaRequisicao == default ? Guid.NewGuid() : idDaRequisicao;
 
@@ -24,8 +24,8 @@ namespace dn32.socket
 
             Memoria.Respostas.TryAdd(idDaRequisicao, retornoDeMensagem);
 
-            await EnviarMensagem(dnSocket, mensagem, retorno, idDaRequisicao);
-            if (!retorno)
+            await EnviarMensagemInternoAsync(dnSocket, mensagem, ehUmRetorno, idDaRequisicao);
+            if (!ehUmRetorno)
             {
                 var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(TEMPO_TE_ESPERA_POR_RETORNO_EM_MS, dnSocket.Ctoken);
                 if (!sucesso) throw new TimeoutException();
@@ -36,13 +36,18 @@ namespace dn32.socket
             return default;
         }
 
-        private static async Task EnviarMensagem(this DnRepresentante dnSocket, object mensagem, bool retorno, Guid idDaRequisicao)
+        private static async Task EnviarMensagemInternoAsync(this DnRepresentante dnSocket, object mensagem, bool ehUmRetorno, Guid idDaRequisicao)
         {
-            var objeto = retorno ? mensagem : new DnContratoDeMensagem(JsonConvert.SerializeObject(mensagem), retorno, idDaRequisicao);
+            var objeto = ehUmRetorno ? mensagem : new DnContratoDeMensagem(JsonConvert.SerializeObject(mensagem), ehUmRetorno, idDaRequisicao);
             var json = JsonConvert.SerializeObject(objeto);
             var arrayDeBytes = dnSocket.UsarCompressao ? UtilZip.Zip(json) : Encoding.UTF8.GetBytes(json);
 
             await dnSocket.WebSocket.SendAsync(new ArraySegment<byte>(arrayDeBytes, 0, arrayDeBytes.Length), WebSocketMessageType.Binary, true, dnSocket.Ctoken);
+        }
+
+        internal static async Task EnviarMensagemAsync(this DnRepresentante dnSocket, object mensagem)
+        {
+            await EnviarMensagemInternoAsync(dnSocket, mensagem, false, Guid.NewGuid());
         }
     }
 }

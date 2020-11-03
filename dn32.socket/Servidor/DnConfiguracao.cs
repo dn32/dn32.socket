@@ -15,11 +15,11 @@ namespace dn32.socket.servidor
                     if (context.WebSockets.IsWebSocketRequest)
                     {
                         var cliente = new TR();
-                        _ = cliente.Conectando();
                         var webSocket = await context.WebSockets.AcceptWebSocketAsync();
                         cliente.DefinirWebSocket(webSocket);
                         _= cliente.ConectadoAsync();
                         await cliente.AguardarEReceberInternoAsync();
+                        _ = cliente.DesconectadoAsync(null);
                     }
                     else
                     {
