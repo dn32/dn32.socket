@@ -27,7 +27,6 @@ namespace dn32.socket
             await EnviarMensagem(dnSocket, mensagem, retorno, idDaRequisicao);
             if (!retorno)
             {
-                //while (retornoDeMensagem.Retorno == null) await Task.Delay(1);
                 var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(TEMPO_TE_ESPERA_POR_RETORNO_EM_MS, dnSocket.Ctoken);
                 if (!sucesso) throw new TimeoutException();
                 Memoria.Respostas.TryRemove(idDaRequisicao, out _);
@@ -41,9 +40,9 @@ namespace dn32.socket
         {
             var objeto = retorno ? mensagem : new DnContratoDeMensagem(JsonConvert.SerializeObject(mensagem), retorno, idDaRequisicao);
             var json = JsonConvert.SerializeObject(objeto);
-            var arrayDeBytesComprimido = UtilZip.Zip(json);
+            var arrayDeBytes = dnSocket.UsarCompressao ? UtilZip.Zip(json) : Encoding.UTF8.GetBytes(json);
 
-            await dnSocket.WebSocket.SendAsync(new ArraySegment<byte>(arrayDeBytesComprimido, 0, arrayDeBytesComprimido.Length), WebSocketMessageType.Binary, true, dnSocket.Ctoken);
+            await dnSocket.WebSocket.SendAsync(new ArraySegment<byte>(arrayDeBytes, 0, arrayDeBytes.Length), WebSocketMessageType.Binary, true, dnSocket.Ctoken);
         }
     }
 }

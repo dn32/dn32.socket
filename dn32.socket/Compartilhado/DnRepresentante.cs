@@ -9,11 +9,17 @@ namespace dn32.socket
     {
         protected CancellationTokenSource CancellationTokenSource { get; }
 
+        public bool UsarCompressao { get; private set; }
+
         internal protected WebSocket WebSocket { get; private set; }
 
         public CancellationToken Ctoken => CancellationTokenSource.Token;
 
-        public DnRepresentante() => CancellationTokenSource = new CancellationTokenSource();
+        public DnRepresentante(bool usarCompressao)
+        {
+            UsarCompressao = usarCompressao;
+            CancellationTokenSource = new CancellationTokenSource();
+        }
 
         internal void DefinirWebSocket(WebSocket webSocket) => this.WebSocket = webSocket;
 

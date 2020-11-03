@@ -16,6 +16,8 @@ namespace dn32.socket.cliente
 
         public virtual Task ReconectandoAsync(Exception e, int numetoDeTentativas) => Task.CompletedTask;
 
+        public DnRepresentanteDoServidorNoCliente(bool usarCompressao) : base(usarCompressao) { }
+
         public async Task Inicializar(string url, TimeSpan intervaloEntreReconexoes = default)
         {
             if (intervaloEntreReconexoes == default) intervaloEntreReconexoes = TimeSpan.FromSeconds(5);

@@ -75,8 +75,8 @@ namespace dn32.socket
             while (!resultado.EndOfMessage);
             ms.Seek(0, SeekOrigin.Begin);
 
-            var arrayDeBytesComprimido = ms.ToArray();
-            var json = UtilZip.Unzip(arrayDeBytesComprimido);
+            var arrayDeBytes = ms.ToArray();
+            var json = dnSocket.UsarCompressao ? UtilZip.Unzip(arrayDeBytes) : Encoding.UTF8.GetString(arrayDeBytes);
 
             var objeto = JsonConvert.DeserializeObject<DnContratoDeMensagem>(json);
             return (objeto, resultado);

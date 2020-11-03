@@ -10,5 +10,9 @@ namespace dn32.socket.servidor
         public override Task ConectadoAsync() => Task.CompletedTask;
 
         public virtual Task Conectando() => Task.CompletedTask;
+
+        public DnRepresentacaoDoClienteNoServidor(bool usarCompressao) :base(usarCompressao)
+        {
+        }
     }
 }
