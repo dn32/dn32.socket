@@ -12,7 +12,7 @@ namespace dn32.socket.servidor.Exemplos
 
         public bool Respondido { get; set; }
 
-        public ExemploDeRepresentacaoDeServidorNoCliente()
+        public ExemploDeRepresentacaoDeServidorNoCliente() : base(usarCompressao: true)
         {
             Cronometro = new Stopwatch(); Cronometro.Start();
         }
@@ -50,7 +50,7 @@ namespace dn32.socket.servidor.Exemplos
         public async Task<ExemploDePacoteDeRetorno> EnviarMensagemDeExemplo(string texto)
         {
             var exemploDePacote = new ExemploDePacoteDeEnvio { Informacao = texto };
-            return await EnviarMensagem<ExemploDePacoteDeRetorno>(exemploDePacote);
+            return await EnviarMensagemComRetornoAsync<ExemploDePacoteDeRetorno>(exemploDePacote);
         }
 
         public override async Task<object> MensagemRecebidaAsync(string mensagem)
