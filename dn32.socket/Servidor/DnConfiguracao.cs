@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace dn32.socket.servidor
 {
     public static class DnConfiguracao
     {
-        public static IApplicationBuilder UseDnSocket<TR>(this IApplicationBuilder app, WebSocketOptions webSocketOptions, string prefixo) where TR: DnRepresentacaoDoClienteNoServidor, new()
+        public static IApplicationBuilder UseDnSocket<TR>(this IApplicationBuilder app, WebSocketOptions webSocketOptions, string prefixo) where TR: DnRepresentacaoDoClienteNoServidor
         {
             app = app.UseWebSockets(webSocketOptions);
 
@@ -14,7 +16,11 @@ namespace dn32.socket.servidor
                 {
                     if (context.WebSockets.IsWebSocketRequest)
                     {
-                        var cliente = new TR();
+                        var serviceProvider = app.ApplicationServices;
+                        var cliente = serviceProvider.GetService<TR>();
+                        if (cliente == null) 
+                            throw new InvalidOperationException($"{typeof(TR).Name} não foi encontrado na injeção de dependência. Registro-o da sequinte forma: services.AddTransient<MeuServico>();");
+
                         var webSocket = await context.WebSockets.AcceptWebSocketAsync();
                         cliente.DefinirWebSocket(webSocket);
                         _= cliente.ConectadoAsync();
