@@ -14,13 +14,12 @@ namespace dn32.socket.servidor
             services.AddControllersWithViews();
         }
 
-        private static WebSocketOptions WebSocketOptions => new WebSocketOptions()
+        private static WebSocketOptions WebSocketOptions => new()
         {
-            KeepAliveInterval = TimeSpan.FromSeconds(120),
-            ReceiveBufferSize = 4 * 1024
+            KeepAliveInterval = TimeSpan.FromSeconds(120)
         };
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseRouting();
             app.UseEndpoints(endpoints =>

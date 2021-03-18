@@ -10,6 +10,8 @@ namespace dn32.socket.servidor.Exemplos
 
         public async Task Iniciar(ExemploDeRepresentacaoDeClienteNoServidor cliente)
         {
+            await Task.CompletedTask;
+
             Cliente = cliente;
 
             //int i = 0;
