@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace dn32.socket
+namespace dn32.socket.Compartilhado
 {
     [Serializable]
     internal class DnContratoDeMensagem

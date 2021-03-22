@@ -1,4 +1,5 @@
 ﻿using dn32.socket.Compartilhado;
+using dn32.socket.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -6,11 +7,11 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dn32.socket
+namespace dn32.socket.Compartilhado
 {
     internal static class Recepcao
     {
-        internal static async Task AguardarEReceberInternoAsync(this DnRepresentante dnSocket)
+        internal static async Task AguardarEReceberInternoAsync(this IDnRepresentante dnSocket)
         {
             do
             {
@@ -43,7 +44,7 @@ namespace dn32.socket
             dnSocket.WebSocket?.Dispose();
         }
 
-        private static async Task TratarRecepcaoERetorno(DnRepresentante dnSocket, DnContratoDeMensagem mensagem)
+        private static async Task TratarRecepcaoERetorno(IDnRepresentante dnSocket, DnContratoDeMensagem mensagem)
         {
             if (mensagem.Retorno)
             {
@@ -61,7 +62,7 @@ namespace dn32.socket
             }
         }
 
-        private static async Task<(DnContratoDeMensagem mensagem, WebSocketReceiveResult resultado)> AguardarRecebimentoAsync(this DnRepresentante dnSocket)
+        private static async Task<(DnContratoDeMensagem mensagem, WebSocketReceiveResult resultado)> AguardarRecebimentoAsync(this IDnRepresentante dnSocket)
         {
             WebSocketReceiveResult resultado;
             using var ms = new MemoryStream();

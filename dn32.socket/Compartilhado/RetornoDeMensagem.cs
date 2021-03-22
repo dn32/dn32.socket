@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace dn32.socket
+namespace dn32.socket.Compartilhado
 {
     internal class RetornoDeMensagem
     {

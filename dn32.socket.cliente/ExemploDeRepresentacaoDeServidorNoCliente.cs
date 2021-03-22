@@ -1,4 +1,5 @@
 ﻿using dn32.socket.cliente;
+using dn32.socket.Cliente;
 using dn32.socket.servidor.Exemplos.Model;
 using System;
 using System.Diagnostics;

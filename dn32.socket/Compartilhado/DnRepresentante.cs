@@ -1,17 +1,18 @@
-﻿using System;
+﻿using dn32.socket.Interfaces;
+using System;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace dn32.socket
+namespace dn32.socket.Compartilhado
 {
-    public abstract class DnRepresentante
+    public abstract class DnRepresentante : IDnRepresentante
     {
-        protected CancellationTokenSource CancellationTokenSource { get; }
+        public CancellationTokenSource CancellationTokenSource { get; }
 
-        public bool UsarCompressao { get; private set; }
+        public bool UsarCompressao { get;  set; }
 
-        internal protected WebSocket WebSocket { get; private set; }
+        public WebSocket WebSocket { get;  set; }
 
         public CancellationToken Ctoken => CancellationTokenSource.Token;
 
@@ -21,7 +22,7 @@ namespace dn32.socket
             CancellationTokenSource = new CancellationTokenSource();
         }
 
-        internal void DefinirWebSocket(WebSocket webSocket) => this.WebSocket = webSocket;
+        public void DefinirWebSocket(WebSocket webSocket) => this.WebSocket = webSocket;
 
         public abstract Task<object> MensagemRecebidaAsync(string mensagem);
 

@@ -1,4 +1,5 @@
 ﻿using dn32.socket.Compartilhado;
+using dn32.socket.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;
@@ -6,13 +7,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace dn32.socket
+namespace dn32.socket.Compartilhado
 {
     internal static class Envio
     {
         private const int TEMPO_TE_ESPERA_POR_RETORNO_EM_MS = 20000;
 
-        internal static async Task<To> EnviarMensagemInternoAsync<To>(this DnRepresentante dnSocket, object mensagem, bool ehUmRetorno, Guid idDaRequisicao = default)
+        internal static async Task<To> EnviarMensagemInternoAsync<To>(this IDnRepresentante dnSocket, object mensagem, bool ehUmRetorno, Guid idDaRequisicao = default)
         {
             idDaRequisicao = idDaRequisicao == default ? Guid.NewGuid() : idDaRequisicao;
 
@@ -36,7 +37,7 @@ namespace dn32.socket
             return default;
         }
 
-        private static async Task EnviarMensagemInternoAsync(this DnRepresentante dnSocket, object mensagem, bool ehUmRetorno, Guid idDaRequisicao)
+        private static async Task EnviarMensagemInternoAsync(this IDnRepresentante dnSocket, object mensagem, bool ehUmRetorno, Guid idDaRequisicao)
         {
             var objeto = ehUmRetorno ? mensagem : new DnContratoDeMensagem(JsonConvert.SerializeObject(mensagem), ehUmRetorno, idDaRequisicao);
             var json = JsonConvert.SerializeObject(objeto);
@@ -45,7 +46,7 @@ namespace dn32.socket
             await dnSocket.WebSocket.SendAsync(new ArraySegment<byte>(arrayDeBytes, 0, arrayDeBytes.Length), WebSocketMessageType.Binary, true, dnSocket.Ctoken);
         }
 
-        internal static async Task EnviarMensagemAsync(this DnRepresentante dnSocket, object mensagem)
+        internal static async Task EnviarMensagemAsync(this IDnRepresentante dnSocket, object mensagem)
         {
             await EnviarMensagemInternoAsync(dnSocket, mensagem, false, Guid.NewGuid());
         }

@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.socket", "dn32.socket\dn32.socket.csproj", "{25AF9011-2B68-452E-8613-853DC1616D16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dn32.socket.cliente", "dn32.socket.cliente\dn32.socket.cliente.csproj", "{EA22E51D-3503-4003-99D3-115D57A0432E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.socket.cliente", "dn32.socket.cliente\dn32.socket.cliente.csproj", "{EA22E51D-3503-4003-99D3-115D57A0432E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dn32.socket.servidor", "dn32.socket.servidor\dn32.socket.servidor.csproj", "{91E34ED5-F175-44AE-9404-A905F12048DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.socket.servidor", "dn32.socket.servidor\dn32.socket.servidor.csproj", "{91E34ED5-F175-44AE-9404-A905F12048DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

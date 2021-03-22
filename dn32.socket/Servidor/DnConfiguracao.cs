@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using dn32.socket.Compartilhado;
+using dn32.socket.Interfaces;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace dn32.socket.servidor
+namespace dn32.socket.Servidor
 {
     public static class DnConfiguracao
     {
-        public static IApplicationBuilder UseDnSocket<TR>(this IApplicationBuilder app, WebSocketOptions webSocketOptions, string prefixo) where TR: DnRepresentacaoDoClienteNoServidor
+        public static IApplicationBuilder UseDnSocket<TR>(this IApplicationBuilder app, WebSocketOptions webSocketOptions, string prefixo) where TR: IDnRepresentacaoDoClienteNoServidor
         {
             app = app.UseWebSockets(webSocketOptions);
 

@@ -1,14 +1,14 @@
-﻿using Polly;
+﻿using dn32.socket.Compartilhado;
+using Polly;
 using System;
-using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
-namespace dn32.socket.cliente
+namespace dn32.socket.Cliente
 {
-    public abstract class DnRepresentanteDoServidorNoCliente : DnRepresentante
+    public abstract class DnRepresentanteDoServidorNoCliente : DnRepresentante, IDnRepresentanteDoServidorNoCliente
     {
-        internal protected ClientWebSocket ClientWebSocket => base.WebSocket as ClientWebSocket;
+        public ClientWebSocket ClientWebSocket => base.WebSocket as ClientWebSocket;
 
         public virtual Task ConectandoAsync() => Task.CompletedTask;
 
@@ -30,7 +30,7 @@ namespace dn32.socket.cliente
             _ = ConectadoAsync();
         }
 
-        private async Task<ClientWebSocket> ConectarPersistenteAsync(string url, TimeSpan intervaloEntreReconexoes)
+        public async Task<ClientWebSocket> ConectarPersistenteAsync(string url, TimeSpan intervaloEntreReconexoes)
         {//Todo - implementar tocken de cancelamento
             var resultado = await Policy
                                 .Handle<WebSocketException>()
