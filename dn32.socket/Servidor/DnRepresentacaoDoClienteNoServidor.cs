@@ -13,12 +13,17 @@ namespace dn32.socket.Servidor
 
         public override Task ConectadoAsync() => Task.CompletedTask;
 
-        public DnRepresentacaoDoClienteNoServidor(bool usarCompressao, int tempoDeEsperaParaEnvioDePingMs, bool mostrarPingPongNoConsole = false) : base(usarCompressao)
+        public DnWebSocketOptions DnWebSocketOptions { get; set; }
+
+        public DnRepresentacaoDoClienteNoServidor(bool usarCompressao) : base(usarCompressao) { }
+
+        public void Inicializar(DnWebSocketOptions dnWebSocketOptions)
         {
-            _ = EnvioConstanteDePing(tempoDeEsperaParaEnvioDePingMs, mostrarPingPongNoConsole);
+            DnWebSocketOptions = dnWebSocketOptions;
+            _ = EnvioConstanteDePing();
         }
 
-        protected async Task EnvioConstanteDePing(int tempoDeEsperaParaEnvioDePingMs, bool mostrarPingPongNoConsole = false)
+        protected async Task EnvioConstanteDePing()
         {
             while (!CancellationTokenSource.IsCancellationRequested)
             {
@@ -26,11 +31,11 @@ namespace dn32.socket.Servidor
                 {
                     try
                     {
-                        var retorno = await EnviarMensagemComRetornoAsync<string>("ping", tempoDeEsperaParaEnvioDePingMs);
+                        var retorno = await EnviarMensagemComRetornoAsync<string>("ping", (int)DnWebSocketOptions.TimeOutDePing.TotalMilliseconds);
                         if (retorno == "pong")
                         {
                             UltimaRespostaDePingDoCliente = DateTime.Now;
-                            if (mostrarPingPongNoConsole)
+                            if (DnWebSocketOptions.MostrarConsoleDePing)
                             {
                                 Console.WriteLine($"Cliente respondeu ao ping {UltimaRespostaDePingDoCliente}");
                             }
@@ -46,7 +51,7 @@ namespace dn32.socket.Servidor
                     }
                 }
 
-                await Task.Delay(tempoDeEsperaParaEnvioDePingMs);
+                await Task.Delay(DnWebSocketOptions.IntervaloDePing);
             }
         }
     }

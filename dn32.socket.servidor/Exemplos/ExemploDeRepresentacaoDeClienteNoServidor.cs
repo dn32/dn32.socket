@@ -12,7 +12,7 @@ namespace dn32.socket.servidor.Exemplos
        
         public TarefaEmSegundoPlano TarefaEmSegundoPlano { get; set; }
 
-        public ExemploDeRepresentacaoDeClienteNoServidor() : base(usarCompressao: true, tempoDeEsperaParaEnvioDePingMs: TempoDeEsperaParaEnvioDePingMs, mostrarPingPongNoConsole: true) { }
+        public ExemploDeRepresentacaoDeClienteNoServidor() : base(usarCompressao: true) { }
 
         public override Task ConectadoAsync()
         {

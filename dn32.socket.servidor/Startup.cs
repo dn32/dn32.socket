@@ -16,9 +16,11 @@ namespace dn32.socket.servidor
             services.AddTransient<IExemploDeRepresentacaoDeClienteNoServidor,  ExemploDeRepresentacaoDeClienteNoServidor>();
         }
 
-        private static WebSocketOptions WebSocketOptions => new()
+        private static DnWebSocketOptions DnWebSocketOptions => new()
         {
-            KeepAliveInterval = TimeSpan.FromSeconds(12)
+            IntervaloDePing = TimeSpan.FromSeconds(10),
+            TimeOutDePing = TimeSpan.FromSeconds(10),
+            MostrarConsoleDePing = true,
         };
 
         public void Configure(IApplicationBuilder app)
@@ -31,7 +33,7 @@ namespace dn32.socket.servidor
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseDnSocket<IExemploDeRepresentacaoDeClienteNoServidor>(WebSocketOptions, "ws");
+            app.UseDnSocket<IExemploDeRepresentacaoDeClienteNoServidor>(DnWebSocketOptions, "ws");
 
             var urlDoSocket = string.Join(", ", app.ServerFeatures.Get<IServerAddressesFeature>().Addresses).Replace("http://", "ws://") + "/ws";
          
