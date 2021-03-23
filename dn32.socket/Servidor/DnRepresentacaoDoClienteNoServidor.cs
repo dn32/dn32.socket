@@ -24,16 +24,23 @@ namespace dn32.socket.Servidor
             {
                 if (WebSocket?.State == System.Net.WebSockets.WebSocketState.Open)
                 {
-                    var retorno = await EnviarMensagemComRetornoAsync<string>("ping", tempoDeEsperaParaEnvioDePingMs);
-                    if (retorno == "pong")
+                    try
                     {
-                        UltimaRespostaDePingDoCliente = DateTime.Now;
-                        if (mostrarPingPongNoConsole)
+                        var retorno = await EnviarMensagemComRetornoAsync<string>("ping", tempoDeEsperaParaEnvioDePingMs);
+                        if (retorno == "pong")
                         {
-                            Console.WriteLine($"Cliente respondeu ao ping {UltimaRespostaDePingDoCliente}");
+                            UltimaRespostaDePingDoCliente = DateTime.Now;
+                            if (mostrarPingPongNoConsole)
+                            {
+                                Console.WriteLine($"Cliente respondeu ao ping {UltimaRespostaDePingDoCliente}");
+                            }
+                        }
+                        else
+                        {
+                            await DesconectarAsync("Timeout de dnPing");
                         }
                     }
-                    else
+                    catch (TimeoutException)
                     {
                         await DesconectarAsync("Timeout de dnPing");
                     }
