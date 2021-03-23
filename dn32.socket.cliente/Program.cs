@@ -11,7 +11,7 @@ namespace dn32.socket.cliente
     class Program
     {
         private static SemaphoreSlim ControleDeFluxo { get; set; }
-        private const int QUANTIDADE = 100;
+        private const int QUANTIDADE = 1;
        
 
         static async void MainAsync()

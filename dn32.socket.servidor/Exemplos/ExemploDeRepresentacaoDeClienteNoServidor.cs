@@ -6,11 +6,13 @@ using Newtonsoft.Json;
 
 namespace dn32.socket.servidor.Exemplos
 {
-    public class ExemploDeRepresentacaoDeClienteNoServidor : DnRepresentacaoDoClienteNoServidor
+    public class ExemploDeRepresentacaoDeClienteNoServidor : DnRepresentacaoDoClienteNoServidor, IExemploDeRepresentacaoDeClienteNoServidor
     {
+        public const int TempoDeEsperaParaEnvioDePingMs = 3000;
+       
         public TarefaEmSegundoPlano TarefaEmSegundoPlano { get; set; }
 
-        public ExemploDeRepresentacaoDeClienteNoServidor() : base(usarCompressao: true) { }
+        public ExemploDeRepresentacaoDeClienteNoServidor() : base(usarCompressao: true, tempoDeEsperaParaEnvioDePingMs: TempoDeEsperaParaEnvioDePingMs, mostrarPingPongNoConsole: true) { }
 
         public override Task ConectadoAsync()
         {

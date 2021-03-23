@@ -56,6 +56,12 @@ namespace dn32.socket.servidor.Exemplos
 
         public override async Task<object> MensagemRecebidaAsync(string mensagem)
         {
+            if (mensagem == "\"ping\"")
+            {
+                MensagemDeDebug(mensagem);
+                return "pong";
+            }
+
             MensagemDeDebug(mensagem);
             await Task.CompletedTask;
             return new ExemploDePacoteDeRetorno

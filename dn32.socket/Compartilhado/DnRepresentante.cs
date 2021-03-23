@@ -32,19 +32,24 @@ namespace dn32.socket.Compartilhado
 
         public async Task<To> EnviarMensagemComRetornoAsync<To>(object mensagem) => await this.EnviarMensagemInternoAsync<To>(mensagem, false);
 
+        public async Task<To> EnviarMensagemComRetornoAsync<To>(object mensagem, int timeOutMs) => await this.EnviarMensagemInternoAsync<To>(mensagem, false, default, timeOutMs);
+
         public async Task EnviarMensagemAsync(object mensagem) => await Envio.EnviarMensagemAsync(this, mensagem);
 
-        public async Task Desconectar()
+        public async Task DesconectarAsync(string motivo = "Finalização padrão")
         {
             try
             {
-                await WebSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Finalização padrão", Ctoken);
-                CancellationTokenSource.Cancel(false);
-                WebSocket.Dispose();
+                await WebSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, motivo, Ctoken);
             }
             catch (WebSocketException)
             {
                 //Ignore
+            }
+            finally
+            {
+                CancellationTokenSource.Cancel(false);
+                WebSocket?.Dispose();
             }
         }
     }

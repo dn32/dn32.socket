@@ -14,7 +14,7 @@ namespace dn32.socket.Interfaces
         Task ConectadoAsync();
         void DefinirWebSocket(WebSocket webSocket);
         Task DesconectadoAsync(Exception exception);
-        Task Desconectar();
+        Task DesconectarAsync(string motivo);
         Task EnviarMensagemAsync(object mensagem);
         Task<To> EnviarMensagemComRetornoAsync<To>(object mensagem);
         Task<object> MensagemRecebidaAsync(string mensagem);

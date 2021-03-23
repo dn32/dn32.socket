@@ -1,4 +1,5 @@
 ﻿using dn32.socket.Compartilhado;
+using dn32.socket.Interfaces;
 using Polly;
 using System;
 using System.Net.WebSockets;
@@ -31,7 +32,7 @@ namespace dn32.socket.Cliente
         }
 
         public async Task<ClientWebSocket> ConectarPersistenteAsync(string url, TimeSpan intervaloEntreReconexoes)
-        {//Todo - implementar tocken de cancelamento
+        {
             var resultado = await Policy
                                 .Handle<WebSocketException>()
                                 .RetryForeverAsync(async (e, numetoDeTentativas) =>

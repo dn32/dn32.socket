@@ -56,8 +56,18 @@ namespace dn32.socket.Compartilhado
             }
             else
             {
-                var objetoDeRetorno = await dnSocket.MensagemRecebidaAsync(mensagem.Conteudo);
-                var retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(objetoDeRetorno), true, mensagem.IdDaRequisicao);
+                DnContratoDeMensagem retornoEmContrato;
+
+                if (mensagem.Conteudo == "\"ping\"")
+                {
+                    retornoEmContrato = new DnContratoDeMensagem("\"pong\"", true, mensagem.IdDaRequisicao);
+                }
+                else
+                {
+                    var objetoDeRetorno = await dnSocket.MensagemRecebidaAsync(mensagem.Conteudo);
+                    retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(objetoDeRetorno), true, mensagem.IdDaRequisicao);
+                }
+
                 await dnSocket.EnviarMensagemInternoAsync<object>(retornoEmContrato, true, mensagem.IdDaRequisicao);
             }
         }

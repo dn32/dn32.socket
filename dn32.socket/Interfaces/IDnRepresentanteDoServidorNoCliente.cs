@@ -3,7 +3,7 @@ using System;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
-namespace dn32.socket.Cliente
+namespace dn32.socket.Interfaces
 {
     public interface IDnRepresentanteDoServidorNoCliente : IDnRepresentante
     {

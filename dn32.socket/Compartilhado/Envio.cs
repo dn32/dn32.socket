@@ -13,7 +13,7 @@ namespace dn32.socket.Compartilhado
     {
         private const int TEMPO_TE_ESPERA_POR_RETORNO_EM_MS = 20000;
 
-        internal static async Task<To> EnviarMensagemInternoAsync<To>(this IDnRepresentante dnSocket, object mensagem, bool ehUmRetorno, Guid idDaRequisicao = default)
+        internal static async Task<To> EnviarMensagemInternoAsync<To>(this IDnRepresentante dnSocket, object mensagem, bool ehUmRetorno, Guid idDaRequisicao = default, int timeOutMs = TEMPO_TE_ESPERA_POR_RETORNO_EM_MS)
         {
             idDaRequisicao = idDaRequisicao == default ? Guid.NewGuid() : idDaRequisicao;
 
@@ -28,7 +28,7 @@ namespace dn32.socket.Compartilhado
             await EnviarMensagemInternoAsync(dnSocket, mensagem, ehUmRetorno, idDaRequisicao);
             if (!ehUmRetorno)
             {
-                var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(TEMPO_TE_ESPERA_POR_RETORNO_EM_MS, dnSocket.Ctoken);
+                var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(timeOutMs, dnSocket.Ctoken);
                 if (!sucesso) throw new TimeoutException();
                 Memoria.Respostas.TryRemove(idDaRequisicao, out _);
                 return retornoDeMensagem.Retorno == null ? default : JsonConvert.DeserializeObject<To>(retornoDeMensagem.Retorno);
