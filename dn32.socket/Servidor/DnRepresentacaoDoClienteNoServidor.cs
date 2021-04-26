@@ -37,7 +37,7 @@ namespace dn32.socket.Servidor
                             UltimaRespostaDePingDoCliente = DateTime.Now;
                             if (DnWebSocketOptions.MostrarConsoleDePing)
                             {
-                                Console.WriteLine($"Cliente respondeu ao ping {UltimaRespostaDePingDoCliente}");
+                                Console.WriteLine($"Cliente respondeu ao ping {UltimaRespostaDePingDoCliente:HH:mm:ss FFF}");
                             }
                         }
                         else
