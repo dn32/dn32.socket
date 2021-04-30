@@ -12,7 +12,7 @@ namespace dn32.socket.cliente
     {
         private static SemaphoreSlim ControleDeFluxo { get; set; }
         private const int QUANTIDADE = 1;
-       
+
 
         static async void MainAsync()
         {
@@ -21,7 +21,7 @@ namespace dn32.socket.cliente
             Console.WriteLine("Iniciando");
             var t1 = new Stopwatch(); t1.Start();
             var lista = new List<ExemploDeRepresentacaoDeServidorNoCliente>();
-           
+
             ControleDeFluxo = new SemaphoreSlim(20);
 
             for (int i = 0; i < QUANTIDADE; i++)

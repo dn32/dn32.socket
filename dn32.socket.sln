@@ -9,6 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.socket.cliente", "dn32
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.socket.servidor", "dn32.socket.servidor\dn32.socket.servidor.csproj", "{91E34ED5-F175-44AE-9404-A905F12048DF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C9C84392-FFEC-430A-B900-D2CBCDB34A2F}"
+	ProjectSection(SolutionItems) = preProject
+		deploy.txt = deploy.txt
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

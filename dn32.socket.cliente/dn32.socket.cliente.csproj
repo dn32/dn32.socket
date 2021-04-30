@@ -1,12 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net5</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFrameworks>net5</TargetFrameworks>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\dn32.socket\dn32.socket.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\dn32.socket\dn32.socket.csproj" />
+	</ItemGroup>
 
 </Project>

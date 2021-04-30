@@ -32,7 +32,7 @@ namespace dn32.socket.Compartilhado
                     if (ex is OperationCanceledException || ex is WebSocketException)
                     {
                         if (dnSocket.WebSocket.State == WebSocketState.Open)
-                            try { await dnSocket.WebSocket.CloseAsync(WebSocketCloseStatus.InternalServerError, "", dnSocket.Ctoken); } catch { }
+                            try { await dnSocket.WebSocket.CloseOutputAsync(WebSocketCloseStatus.InternalServerError, "", dnSocket.Ctoken); } catch { }
                         break;
                     }
 
