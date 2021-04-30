@@ -10,11 +10,15 @@ namespace dn32.socket.Compartilhado
     {
         public CancellationTokenSource CancellationTokenSource { get; }
 
-        public bool UsarCompressao { get;  set; }
+        public bool UsarCompressao { get; set; }
 
-        public WebSocket WebSocket { get;  set; }
+        public WebSocket WebSocket { get; set; }
 
         public CancellationToken Ctoken => CancellationTokenSource.Token;
+
+        public Task TaskSocketDesconectadoAsync { get; set; }
+
+        public Task TaskTratarRecepcaoERetornoAsync { get; set; }
 
         public DnRepresentante(bool usarCompressao)
         {
@@ -51,6 +55,20 @@ namespace dn32.socket.Compartilhado
                 CancellationTokenSource.Cancel(false);
                 WebSocket?.Dispose();
             }
+        }
+
+        public virtual async ValueTask DisposeAsync()
+        {
+            Dispose();
+            await Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            CancellationTokenSource.Cancel(false);
+            TaskSocketDesconectadoAsync?.Dispose();
+            TaskTratarRecepcaoERetornoAsync?.Dispose();
+            WebSocket?.Dispose();
         }
     }
 }

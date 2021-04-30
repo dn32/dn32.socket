@@ -17,7 +17,7 @@ namespace dn32.socket.Compartilhado
         {
             idDaRequisicao = idDaRequisicao == default ? Guid.NewGuid() : idDaRequisicao;
 
-            var retornoDeMensagem = new RetornoDeMensagem
+            using var retornoDeMensagem = new RetornoDeMensagem
             {
                 IdDaRequisicao = idDaRequisicao,
                 Semaforo = new SemaphoreSlim(0)
@@ -30,10 +30,11 @@ namespace dn32.socket.Compartilhado
             {
                 var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(timeOutMs, dnSocket.Ctoken);
                 if (!sucesso) throw new TimeoutException();
-                Memoria.Respostas.TryRemove(idDaRequisicao, out _);
+                Memoria.Respostas.TryRemove(idDaRequisicao, out var retornoDeMensagemRemover);
+                retornoDeMensagemRemover?.Dispose();
                 return retornoDeMensagem.Retorno == null ? default : JsonConvert.DeserializeObject<To>(retornoDeMensagem.Retorno);
             }
-
+            
             return default;
         }
 

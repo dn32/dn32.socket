@@ -1,5 +1,4 @@
-﻿using dn32.socket.Compartilhado;
-using dn32.socket.Interfaces;
+﻿using dn32.socket.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -11,7 +10,7 @@ namespace dn32.socket.Compartilhado
 {
     internal static class Recepcao
     {
-        internal static async Task AguardarEReceberInternoAsync(this IDnRepresentante dnSocket)
+        internal static async Task AguardarEReceberInternoAsync<TR>(this IDnRepresentante dnSocket, TR cliente) where TR : IDnRepresentante
         {
             do
             {
@@ -20,15 +19,15 @@ namespace dn32.socket.Compartilhado
                     (DnContratoDeMensagem mensagem, WebSocketReceiveResult resultado) = await dnSocket.AguardarRecebimentoAsync();
                     if (resultado.CloseStatus.HasValue)
                     {
-                        _ = dnSocket.DesconectadoAsync(new InvalidOperationException(resultado.CloseStatusDescription));
+                        cliente.TaskSocketDesconectadoAsync = dnSocket.DesconectadoAsync(new InvalidOperationException(resultado.CloseStatusDescription));
                         break;
                     }
 
-                    _ = TratarRecepcaoERetorno(dnSocket, mensagem);
+                   cliente.TaskTratarRecepcaoERetornoAsync = TratarRecepcaoERetornoAsync(dnSocket, mensagem);
                 }
                 catch (Exception ex)
                 {
-                    _ = dnSocket.DesconectadoAsync(ex);
+                    cliente.TaskSocketDesconectadoAsync = dnSocket.DesconectadoAsync(ex);
 
                     if (ex is OperationCanceledException || ex is WebSocketException)
                     {
@@ -44,7 +43,7 @@ namespace dn32.socket.Compartilhado
             dnSocket.WebSocket?.Dispose();
         }
 
-        private static async Task TratarRecepcaoERetorno(IDnRepresentante dnSocket, DnContratoDeMensagem mensagem)
+        private static async Task TratarRecepcaoERetornoAsync(IDnRepresentante dnSocket, DnContratoDeMensagem mensagem)
         {
             if (mensagem.Retorno)
             {

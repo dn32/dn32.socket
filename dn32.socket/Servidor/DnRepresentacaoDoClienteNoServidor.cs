@@ -17,15 +17,19 @@ namespace dn32.socket.Servidor
 
         public DnRepresentacaoDoClienteNoServidor(bool usarCompressao) : base(usarCompressao) { }
 
+        public Task TaskEnvioConstanteDePing { get; set; }
+
+        public Task TaskConectadoAsync { get; set; }
+
         public void Inicializar(DnWebSocketOptions dnWebSocketOptions)
         {
             DnWebSocketOptions = dnWebSocketOptions;
-            _ = EnvioConstanteDePing();
+            TaskEnvioConstanteDePing = EnvioConstanteDePing();
         }
 
         protected async Task EnvioConstanteDePing()
         {
-            while (!CancellationTokenSource.IsCancellationRequested)
+            while (!Ctoken.IsCancellationRequested)
             {
                 if (WebSocket?.State == System.Net.WebSockets.WebSocketState.Open)
                 {
@@ -51,8 +55,25 @@ namespace dn32.socket.Servidor
                     }
                 }
 
-                await Task.Delay(DnWebSocketOptions.IntervaloDePing);
+                try
+                {
+                    await Task.Delay(DnWebSocketOptions.IntervaloDePing, Ctoken);
+                }
+                catch (TaskCanceledException)
+                {
+                    return;
+                }
             }
+        }
+
+        public override async ValueTask DisposeAsync()
+        {
+            await base.DisposeAsync();
+
+            await TaskEnvioConstanteDePing.ConfigureAwait(false);
+
+            TaskEnvioConstanteDePing?.Dispose();
+            TaskConectadoAsync?.Dispose();
         }
     }
 }

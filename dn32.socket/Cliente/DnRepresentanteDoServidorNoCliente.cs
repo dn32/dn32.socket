@@ -11,6 +11,11 @@ namespace dn32.socket.Cliente
     {
         public ClientWebSocket ClientWebSocket => base.WebSocket as ClientWebSocket;
 
+        public Task TaskAguardarEReceberInternoAsync { get; private set; }
+        public Task TaskConectadoAsync { get; private set; }
+        public Task TaskReconectandoAsync { get; private set; }
+        public Task TaskConectandoAsync { get; private set; }
+
         public virtual Task ConectandoAsync() => Task.CompletedTask;
 
         public override Task ConectadoAsync() => Task.CompletedTask;
@@ -27,8 +32,8 @@ namespace dn32.socket.Cliente
             if (CancellationTokenSource.IsCancellationRequested) return;
 
             DefinirWebSocket(webSocket);
-            _ = this.AguardarEReceberInternoAsync();
-            _ = ConectadoAsync();
+            TaskAguardarEReceberInternoAsync = this.AguardarEReceberInternoAsync(this);
+            TaskConectadoAsync = ConectadoAsync();
         }
 
         public async Task<ClientWebSocket> ConectarPersistenteAsync(string url, TimeSpan intervaloEntreReconexoes)
@@ -38,7 +43,7 @@ namespace dn32.socket.Cliente
                                 .RetryForeverAsync(async (e, numetoDeTentativas) =>
                                 {
                                     await Task.Delay(intervaloEntreReconexoes);
-                                    _ = ReconectandoAsync(e, numetoDeTentativas);
+                                    TaskReconectandoAsync = ReconectandoAsync(e, numetoDeTentativas);
                                 })
                                 .ExecuteAndCaptureAsync(async () =>
                                 {
@@ -51,10 +56,19 @@ namespace dn32.socket.Cliente
 
         private async Task<ClientWebSocket> Conectar(string url)
         {
-            _ = ConectandoAsync();
+            TaskConectandoAsync = ConectandoAsync();
             var webSocket = new ClientWebSocket();
             await webSocket.ConnectAsync(new Uri(url), CancellationTokenSource.Token);
             return webSocket;
+        }
+
+        public override async ValueTask DisposeAsync()
+        {
+            await base.DisposeAsync();
+            TaskAguardarEReceberInternoAsync?.Dispose();
+            TaskConectadoAsync?.Dispose();
+            TaskReconectandoAsync?.Dispose();
+            TaskConectandoAsync?.Dispose();
         }
     }
 }
