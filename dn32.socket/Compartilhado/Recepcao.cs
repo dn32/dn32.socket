@@ -1,12 +1,11 @@
-﻿using dn32.socket.Interfaces;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dn32.socket.Compartilhado
+namespace dn32.socket
 {
     internal static class Recepcao
     {
@@ -23,7 +22,7 @@ namespace dn32.socket.Compartilhado
                         break;
                     }
 
-                   cliente.TaskTratarRecepcaoERetornoAsync = TratarRecepcaoERetornoAsync(dnSocket, mensagem);
+                    cliente.TaskTratarRecepcaoERetornoAsync = TratarRecepcaoERetornoAsync(dnSocket, mensagem);
                 }
                 catch (Exception ex)
                 {

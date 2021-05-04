@@ -1,11 +1,9 @@
-﻿using dn32.socket.cliente;
-using dn32.socket.Cliente;
-using dn32.socket.servidor.Exemplos.Model;
+﻿using dn32.socket.servidor.Exemplos.Model;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace dn32.socket.servidor.Exemplos
+namespace dn32.socket.servidor
 {
     public class ExemploDeRepresentacaoDeServidorNoCliente : DnRepresentanteDoServidorNoCliente
     {
@@ -40,7 +38,7 @@ namespace dn32.socket.servidor.Exemplos
         {
             MensagemDeDebug("Inicializar.");
 
-            await Inicializar("ws://localhost:9008/ws");
+            await InicializarAsync("ws://localhost:9008/ws");
 
             MensagemDeDebug($"Envaiado para o cliente: 'Teste de envio do servidor'");
             var retorno1 = await EnviarMensagemDeExemplo("Teste de envio do servidor");

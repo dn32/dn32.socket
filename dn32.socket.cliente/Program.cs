@@ -1,4 +1,5 @@
-﻿using dn32.socket.servidor.Exemplos;
+﻿using dn32.socket.servidor;
+using dn32.socket.servidor.Exemplos;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +13,6 @@ namespace dn32.socket.cliente
     {
         private static SemaphoreSlim ControleDeFluxo { get; set; }
         private const int QUANTIDADE = 1;
-
 
         static async void MainAsync()
         {

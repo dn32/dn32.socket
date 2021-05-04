@@ -1,12 +1,12 @@
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using dn32.socket.servidor.Exemplos;
 using dn32.socket.Servidor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace dn32.socket.servidor
 {
@@ -16,7 +16,7 @@ namespace dn32.socket.servidor
         {
             services.AddControllersWithViews();
 
-            services.AddTransient<IExemploDeRepresentacaoDeClienteNoServidor,  ExemploDeRepresentacaoDeClienteNoServidor>();
+            services.AddTransient<IExemploDeRepresentacaoDeClienteNoServidor, ExemploDeRepresentacaoDeClienteNoServidor>();
         }
 
         private static DnWebSocketOptions DnWebSocketOptions => new()
@@ -62,7 +62,7 @@ namespace dn32.socket.servidor
                     }
 
                     var myProcess = Process.GetCurrentProcess();
-                    Console.WriteLine($"Con: {DnConfiguracao.Conectados} - Memoria: " + (int)(myProcess.PrivateMemorySize64 / 1024 / 1024) + "MB");
+                    Console.WriteLine($"Con: {DnConfiguracao.SocketsConectados} - Memoria: " + (int)(myProcess.PrivateMemorySize64 / 1024 / 1024) + "MB");
                 }
             });
         }

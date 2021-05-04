@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using dn32.socket.servidor.Exemplos.Model;
+﻿using System.Threading.Tasks;
 
 namespace dn32.socket.servidor.Exemplos
 {

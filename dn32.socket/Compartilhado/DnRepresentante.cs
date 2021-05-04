@@ -1,10 +1,9 @@
-﻿using dn32.socket.Interfaces;
-using System;
+﻿using System;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace dn32.socket.Compartilhado
+namespace dn32.socket
 {
     public abstract class DnRepresentante : IDnRepresentante
     {
@@ -31,6 +30,8 @@ namespace dn32.socket.Compartilhado
         public abstract Task<object> MensagemRecebidaAsync(string mensagem);
 
         public abstract Task ConectadoAsync();
+
+        public abstract void Conectado();
 
         public abstract Task DesconectadoAsync(Exception exception);
 

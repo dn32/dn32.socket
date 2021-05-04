@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace dn32.socket.Compartilhado
+namespace dn32.socket
 {
     internal static class Memoria
     {

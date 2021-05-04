@@ -1,15 +1,15 @@
-﻿using System;
-using System.Threading.Tasks;
-using dn32.socket.servidor.Exemplos.Model;
+﻿using dn32.socket.servidor.Exemplos.Model;
 using dn32.socket.Servidor;
 using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
 
 namespace dn32.socket.servidor.Exemplos
 {
     public class ExemploDeRepresentacaoDeClienteNoServidor : DnRepresentacaoDoClienteNoServidor, IExemploDeRepresentacaoDeClienteNoServidor
     {
         public const int TempoDeEsperaParaEnvioDePingMs = 3000;
-       
+
         public TarefaEmSegundoPlano TarefaEmSegundoPlano { get; set; }
 
         public ExemploDeRepresentacaoDeClienteNoServidor() : base(usarCompressao: true) { }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace dn32.socket.Compartilhado
+namespace dn32.socket
 {
     internal static class Utilitario
     {

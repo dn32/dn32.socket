@@ -1,11 +1,9 @@
-﻿using dn32.socket.Compartilhado;
-using dn32.socket.Interfaces;
-using Polly;
+﻿using Polly;
 using System;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
-namespace dn32.socket.Cliente
+namespace dn32.socket
 {
     public abstract class DnRepresentanteDoServidorNoCliente : DnRepresentante, IDnRepresentanteDoServidorNoCliente
     {
@@ -20,11 +18,13 @@ namespace dn32.socket.Cliente
 
         public override Task ConectadoAsync() => Task.CompletedTask;
 
+        public override void Conectado() { }
+
         public virtual Task ReconectandoAsync(Exception e, int numetoDeTentativas) => Task.CompletedTask;
 
         public DnRepresentanteDoServidorNoCliente(bool usarCompressao) : base(usarCompressao) { }
 
-        public async Task Inicializar(string url, TimeSpan intervaloEntreReconexoes = default)
+        public async Task InicializarAsync(string url, TimeSpan intervaloEntreReconexoes = default)
         {
             if (intervaloEntreReconexoes == default) intervaloEntreReconexoes = TimeSpan.FromSeconds(5);
 
@@ -34,6 +34,7 @@ namespace dn32.socket.Cliente
             DefinirWebSocket(webSocket);
             TaskAguardarEReceberInternoAsync = this.AguardarEReceberInternoAsync(this);
             TaskConectadoAsync = ConectadoAsync();
+            Conectado();
         }
 
         public async Task<ClientWebSocket> ConectarPersistenteAsync(string url, TimeSpan intervaloEntreReconexoes)
@@ -48,13 +49,13 @@ namespace dn32.socket.Cliente
                                 .ExecuteAndCaptureAsync(async () =>
                                 {
                                     if (CancellationTokenSource.IsCancellationRequested) return null;
-                                    return await Conectar(url);
+                                    return await ConectarAsync(url);
                                 });
 
             return resultado?.Result;
         }
 
-        private async Task<ClientWebSocket> Conectar(string url)
+        private async Task<ClientWebSocket> ConectarAsync(string url)
         {
             TaskConectandoAsync = ConectandoAsync();
             var webSocket = new ClientWebSocket();

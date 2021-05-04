@@ -3,7 +3,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace dn32.socket.Interfaces
+namespace dn32.socket
 {
     public interface IDnRepresentante : IAsyncDisposable, IDisposable
     {
@@ -15,6 +15,7 @@ namespace dn32.socket.Interfaces
         Task TaskTratarRecepcaoERetornoAsync { get; set; }
 
         Task ConectadoAsync();
+        void Conectado();
         void DefinirWebSocket(WebSocket webSocket);
         Task DesconectadoAsync(Exception exception);
         Task DesconectarAsync(string motivo);

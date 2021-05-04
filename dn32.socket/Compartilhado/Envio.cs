@@ -1,13 +1,11 @@
-﻿using dn32.socket.Compartilhado;
-using dn32.socket.Interfaces;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace dn32.socket.Compartilhado
+namespace dn32.socket
 {
     internal static class Envio
     {
@@ -34,7 +32,7 @@ namespace dn32.socket.Compartilhado
                 retornoDeMensagemRemover?.Dispose();
                 return retornoDeMensagem.Retorno == null ? default : JsonConvert.DeserializeObject<To>(retornoDeMensagem.Retorno);
             }
-            
+
             return default;
         }
 

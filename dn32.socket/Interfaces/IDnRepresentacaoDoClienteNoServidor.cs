@@ -3,7 +3,7 @@ using dn32.socket.Servidor;
 using System;
 using System.Threading.Tasks;
 
-namespace dn32.socket.Interfaces
+namespace dn32.socket
 {
     public interface IDnRepresentacaoDoClienteNoServidor : IDnRepresentante
     {

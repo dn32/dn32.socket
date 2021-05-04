@@ -2,7 +2,7 @@
 using System.IO.Compression;
 using System.Text;
 
-namespace dn32.socket.Compartilhado
+namespace dn32.socket
 {
     public class UtilZip
     {
