@@ -49,7 +49,8 @@ namespace dn32.socket
                 if (Memoria.Respostas.TryGetValue(mensagem.IdDaRequisicao, out var retornoDeMensagem))
                 {
                     retornoDeMensagem.Retorno = mensagem.Conteudo;
-                    retornoDeMensagem.Semaforo.Release();
+                    if (retornoDeMensagem.Disposed == false)
+                        retornoDeMensagem.Semaforo.Release();
                 }
             }
             else
