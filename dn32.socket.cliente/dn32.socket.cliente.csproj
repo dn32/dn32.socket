@@ -6,7 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\dn32.socket\dn32.socket.csproj" />
+	  <ProjectReference Include="..\dn32.socket.conector\dn32.socket.conector.csproj" />
 	</ItemGroup>
 
 </Project>

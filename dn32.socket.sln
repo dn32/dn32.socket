@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dn32.socket.conector", "dn32.socket.conector\dn32.socket.conector.csproj", "{0B1C83DB-502E-40EB-B2C3-D8DF6B35FFAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{91E34ED5-F175-44AE-9404-A905F12048DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91E34ED5-F175-44AE-9404-A905F12048DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91E34ED5-F175-44AE-9404-A905F12048DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B1C83DB-502E-40EB-B2C3-D8DF6B35FFAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B1C83DB-502E-40EB-B2C3-D8DF6B35FFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B1C83DB-502E-40EB-B2C3-D8DF6B35FFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B1C83DB-502E-40EB-B2C3-D8DF6B35FFAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

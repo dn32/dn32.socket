@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace dn32.socket
 {
-    internal static class Recepcao
+    public static class Recepcao
     {
-        internal static async Task AguardarEReceberInternoAsync<TR>(this IDnRepresentante dnSocket, TR cliente) where TR : IDnRepresentante
+        public static async Task AguardarEReceberInternoAsync<TR>(this IDnRepresentante dnSocket, TR cliente) where TR : IDnRepresentante
         {
             do
             {
