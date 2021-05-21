@@ -64,6 +64,7 @@ namespace dn32.socket
                 else
                 {
                     var objetoDeRetorno = await dnSocket.MensagemRecebidaAsync(mensagem.Conteudo);
+                    if (objetoDeRetorno == null) return;
                     retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(objetoDeRetorno), true, mensagem.IdDaRequisicao);
                 }
 
