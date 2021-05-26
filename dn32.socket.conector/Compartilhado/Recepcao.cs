@@ -67,8 +67,13 @@ namespace dn32.socket
                     if (objetoDeRetorno == null) return;
                     retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(objetoDeRetorno), true, mensagem.IdDaRequisicao);
                 }
-
-                await dnSocket.EnviarMensagemInternoAsync<object>(retornoEmContrato, true, mensagem.IdDaRequisicao);
+                try
+                {
+                    await dnSocket.EnviarMensagemInternoAsync<object>(retornoEmContrato, true, mensagem.IdDaRequisicao);
+                }
+                catch (WebSocketException)
+                { // Ignore
+                }
             }
         }
 
