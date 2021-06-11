@@ -35,7 +35,9 @@ namespace dn32.socket.Servidor
                 {
                     try
                     {
-                        var retorno = await EnviarMensagemComRetornoAsync<string>("ping", (int)DnWebSocketOptions.TimeOutDePing.TotalMilliseconds);
+                        var timeout = DnWebSocketOptions.TimeOutDePingDinamoco?.Invoke() ?? DnWebSocketOptions.TimeOutDePing;
+
+                        var retorno = await EnviarMensagemComRetornoAsync<string>("ping", (int)timeout.TotalMilliseconds);
                         if (retorno == "pong")
                         {
                             UltimaRespostaDePingDoCliente = DateTime.Now;
@@ -57,7 +59,8 @@ namespace dn32.socket.Servidor
 
                 try
                 {
-                    await Task.Delay(DnWebSocketOptions.IntervaloDePing, Ctoken);
+                    var delay = DnWebSocketOptions.IntervaloDePingDinamico?.Invoke() ?? DnWebSocketOptions.IntervaloDePing;
+                    await Task.Delay(delay, Ctoken);
                 }
                 catch (TaskCanceledException)
                 {

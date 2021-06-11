@@ -5,6 +5,11 @@ namespace dn32.socket
 {
     internal static class Memoria
     {
-        public static ConcurrentDictionary<Guid, RetornoDeMensagem> Respostas { get; set; } = new ConcurrentDictionary<Guid, RetornoDeMensagem>();
+        public static ConcurrentDictionary<Guid, RetornoDeMensagem> Respostas { get; set; }
+
+        static Memoria()
+        {
+            Respostas = new ConcurrentDictionary<Guid, RetornoDeMensagem>();
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace dn32.socket
             if (!ehUmRetorno)
             {
 #if DEBUG
-                timeOutMs = (int)TimeSpan.FromMinutes(10).TotalMilliseconds;//Todo - Remover timeout de debug
+                timeOutMs = (int)TimeSpan.FromMinutes(2).TotalMilliseconds;//Todo 0h - [lembrete] Remover timeout de debug
 #endif
                 var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(timeOutMs, dnSocket.Ctoken);
                 if (!sucesso) throw new TimeoutException();
