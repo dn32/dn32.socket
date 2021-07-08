@@ -26,9 +26,6 @@ namespace dn32.socket
             await EnviarMensagemInternoAsync(dnSocket, mensagem, ehUmRetorno, idDaRequisicao);
             if (!ehUmRetorno)
             {
-#if DEBUG
-                timeOutMs = (int)TimeSpan.FromMinutes(2).TotalMilliseconds;//Todo 0h - [lembrete] Remover timeout de debug
-#endif
                 var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(timeOutMs, dnSocket.Ctoken);
                 if (!sucesso) throw new TimeoutException();
                 Memoria.Respostas.TryRemove(idDaRequisicao, out var retornoDeMensagemRemover);

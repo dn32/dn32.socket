@@ -47,9 +47,8 @@ namespace dn32.socket
             {
                 await WebSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, motivo, Ctoken);
             }
-            catch (WebSocketException)
-            {
-                //Ignore
+            catch (Exception)
+            { //Ignore
             }
             finally
             {
@@ -68,7 +67,8 @@ namespace dn32.socket
         {
             CancellationTokenSource.Cancel(false);
             TaskSocketDesconectadoAsync?.Dispose();
-            TaskTratarRecepcaoERetornoAsync?.Dispose();
+            if (TaskTratarRecepcaoERetornoAsync.IsCompleted)
+                TaskTratarRecepcaoERetornoAsync?.Dispose();
             WebSocket?.Dispose();
         }
     }
