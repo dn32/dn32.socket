@@ -67,7 +67,7 @@ namespace dn32.socket
         {
             CancellationTokenSource.Cancel(false);
             TaskSocketDesconectadoAsync?.Dispose();
-            if (TaskTratarRecepcaoERetornoAsync.IsCompleted)
+            if (TaskTratarRecepcaoERetornoAsync?.IsCompleted == false)
                 TaskTratarRecepcaoERetornoAsync?.Dispose();
             WebSocket?.Dispose();
         }
