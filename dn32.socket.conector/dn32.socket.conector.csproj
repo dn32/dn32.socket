@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.0.0.0-beta27</Version>
+		<Version>1.0.0.0-beta29</Version>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>dn32.socket.conector.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>

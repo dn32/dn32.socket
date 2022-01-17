@@ -18,9 +18,10 @@ namespace dn32.socket.Servidor
         public static IApplicationBuilder UseDnSocket<TR>(this IApplicationBuilder app, DnWebSocketOptions webSocketOptions, string prefixo) where TR : IDnRepresentacaoDoClienteNoServidor
         {
             app = app.UseWebSockets(webSocketOptions);
+
             app.Use(async (context, next) =>
             {
-                if (context.Request.Path == $"/{prefixo}")
+                if (context.Request.Path == $"/{prefixo}" || (context.Request.Path == "/" && context.WebSockets.IsWebSocketRequest))
                 {
                     if (context.WebSockets.IsWebSocketRequest)
                     {
