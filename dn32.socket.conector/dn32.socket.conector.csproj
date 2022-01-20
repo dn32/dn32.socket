@@ -3,14 +3,14 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.0.0.0-beta29</Version>
+		<Version>1.0.0.0-beta30</Version>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>dn32.socket.conector.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="Polly" Version="7.2.2" />
+		<PackageReference Include="Polly" Version="7.2.3" />
 	</ItemGroup>
 
 </Project>
