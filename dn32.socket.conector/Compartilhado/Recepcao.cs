@@ -65,11 +65,11 @@ namespace dn32.socket
                 {
                     var objetoDeRetorno = await dnSocket.MensagemRecebidaAsync(mensagem.Conteudo);
                     if (objetoDeRetorno == null) return;
-                    retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(objetoDeRetorno), true, mensagem.IdDaRequisicao);
+                    retornoEmContrato = new DnContratoDeMensagem(JsonConvert.SerializeObject(objetoDeRetorno), retorno: true, mensagem.IdDaRequisicao);
                 }
                 try
                 {
-                    await dnSocket.EnviarMensagemInternoAsync<object>(retornoEmContrato, true, mensagem.IdDaRequisicao);
+                    await dnSocket.EnviarMensagemInternoAsync<object>(retornoEmContrato, ehUmRetorno: true, mensagem.IdDaRequisicao);
                 }
                 catch (WebSocketException)
                 { // Ignore

@@ -26,8 +26,16 @@ namespace dn32.socket
             await EnviarMensagemInternoAsync(dnSocket, mensagem, ehUmRetorno, idDaRequisicao);
             if (!ehUmRetorno)
             {
-                var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(timeOutMs, dnSocket.Ctoken);
-                if (!sucesso) throw new TimeoutException();
+                try
+                {
+                    var sucesso = await retornoDeMensagem.Semaforo.WaitAsync(timeOutMs, dnSocket.Ctoken);
+                    if (!sucesso) throw new TimeoutException();
+                }
+                catch (ThreadAbortException)
+                {
+                    //Ignore
+                }
+                
                 Memoria.Respostas.TryRemove(idDaRequisicao, out var retornoDeMensagemRemover);
                 retornoDeMensagemRemover?.Dispose();
                 return retornoDeMensagem.Retorno == null ? default : JsonConvert.DeserializeObject<To>(retornoDeMensagem.Retorno);
