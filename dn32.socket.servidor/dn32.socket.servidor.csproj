@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	  <OutputType>Exe</OutputType>
-	  <TargetFramework>net6.0</TargetFramework>
+	  <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
 	  <UserSecretsId>5e1f94d6-867c-4b9b-94ed-14c23450c408</UserSecretsId>
 	  <AssemblyName>servidor</AssemblyName>
   </PropertyGroup>
